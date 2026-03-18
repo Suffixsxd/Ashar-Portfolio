@@ -77,6 +77,9 @@ export function Contact() {
         <p className="font-hand text-ink-light text-lg">
           Designed & Built with Hand-Drawn Precision.
         </p>
+        <p className="font-sans text-xs text-ink-light/50 mt-4 opacity-30 hover:opacity-100 transition-opacity cursor-default">
+          P.S. The keyboard is your friend. Try typing 'matrix', 'spin', or 'barrel roll'.
+        </p>
       </div>
     </section>
   );

@@ -7,7 +7,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-interface RoughBoxProps extends React.HTMLAttributes<HTMLDivElement> {
+interface RoughBoxProps extends React.ComponentProps<"div"> {
+  children?: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+  key?: React.Key;
   type?: 'rectangle' | 'ellipse' | 'circle' | 'polygon';
   fill?: string;
   stroke?: string;
@@ -47,7 +51,8 @@ export function RoughBox({
         svg.removeChild(svg.firstChild);
       }
 
-      const { width, height } = container.getBoundingClientRect();
+      const width = container.offsetWidth;
+      const height = container.offsetHeight;
       
       // Adjust for padding
       const w = width + padding * 2;
@@ -100,7 +105,7 @@ export function RoughBox({
     <div ref={containerRef} className={cn("relative inline-block", className)} {...props}>
       <svg
         ref={svgRef}
-        className="absolute pointer-events-none boiling"
+        className="absolute top-0 left-0 pointer-events-none boiling"
         style={{ zIndex: -1 }}
       />
       {children}

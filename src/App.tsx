@@ -4,11 +4,13 @@ import { BoilingFilter } from './components/BoilingFilter';
 import { Cursor } from './components/Cursor';
 import { FloatingNav } from './components/FloatingNav';
 import { Hero } from './components/Hero';
+import { About } from './components/About';
 import { Projects } from './components/Projects';
 import { Experience } from './components/Experience';
 import { CreativeStack } from './components/CreativeStack';
 import { Contact } from './components/Contact';
 import { EasterEggs } from './components/EasterEggs';
+import { LightSwitch } from './components/LightSwitch';
 
 export default function App() {
   useEffect(() => {
@@ -39,10 +41,12 @@ export default function App() {
       <BoilingFilter />
       <Cursor />
       <EasterEggs />
+      <LightSwitch />
       <FloatingNav />
       
       <main>
         <Hero />
+        <About />
         <Projects />
         <Experience />
         <CreativeStack />

@@ -40,7 +40,7 @@ const StackCard = ({ title, description, icon }: { title: string; description: s
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-      className="relative w-full max-w-sm mx-auto cursor-pointer"
+      className="relative w-full max-w-sm mx-auto cursor-pointer h-full"
       initial={{ opacity: 0, scale: 0.9 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
@@ -54,7 +54,7 @@ const StackCard = ({ title, description, icon }: { title: string; description: s
         strokeWidth={2}
         roughness={2}
         bowing={1}
-        className="p-8 bg-white/80 backdrop-blur-md shadow-xl"
+        className="p-8 bg-white/80 backdrop-blur-md shadow-xl h-full flex flex-col"
         style={{ transformStyle: 'preserve-3d' }}
       >
         <div style={{ transform: 'translateZ(50px)' }} className="mb-6 flex justify-center">
@@ -85,10 +85,10 @@ export function CreativeStack() {
           <div className="absolute inset-0 bg-ink boiling" />
         </div>
         <p className="font-hand text-2xl text-ink-light mt-6 max-w-2xl mx-auto">
-          The Perfectionist Trait: Detail-Oriented Quality Assurance.
+          Built with precision.
         </p>
         <p className="font-sans text-lg text-ink-light mt-4 max-w-3xl mx-auto">
-          I believe that true engineering isn't just about making things work; it's about making them unbreakable. Whether I'm optimizing a 15M parameter model or managing a 10,000+ player infrastructure, I apply a rigorous, detail-oriented approach to ensure flawless execution.
+          Engineering isn't just about making things work; it's about making them unbreakable. I apply a rigorous approach to ensure everything runs flawlessly.
         </p>
       </div>
 

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'motion/react';
 import { RoughBox } from './RoughBox';
 import { Github, ExternalLink } from 'lucide-react';
@@ -21,11 +22,16 @@ const projects = [
 ];
 
 export function Projects() {
+  const [titleClicked, setTitleClicked] = useState(false);
+
   return (
     <section id="vault" className="py-32 px-6 max-w-6xl mx-auto relative">
       <div className="mb-20">
-        <h2 className="text-4xl md:text-6xl font-arch font-bold text-ink mb-4">
-          The Engineering Vault
+        <h2 
+          className="text-4xl md:text-6xl font-arch font-bold text-ink mb-4 cursor-pointer select-none transition-colors hover:text-accent"
+          onClick={() => setTitleClicked(!titleClicked)}
+        >
+          {titleClicked ? "Secret Stash" : "Projects"}
         </h2>
         <div className="w-32 h-1 bg-ink/20 relative">
           <div className="absolute inset-0 bg-ink boiling" />
@@ -42,7 +48,7 @@ export function Projects() {
             transition={{ duration: 0.6, delay: index * 0.2 }}
             whileHover={{ rotateY: 5, rotateX: 5, scale: 1.02 }}
             style={{ perspective: 1000 }}
-            className="group cursor-pointer"
+            className="group cursor-pointer h-full"
           >
             <RoughBox
               type="rectangle"

@@ -6,7 +6,7 @@ export function Experience() {
     <section id="operations" className="py-32 px-6 max-w-6xl mx-auto relative overflow-hidden">
       <div className="mb-20">
         <h2 className="text-4xl md:text-6xl font-arch font-bold text-ink mb-4">
-          Operations & Leadership
+          Leadership
         </h2>
         <div className="w-48 h-1 bg-ink/20 relative">
           <div className="absolute inset-0 bg-ink boiling-slow" />
@@ -43,7 +43,7 @@ export function Experience() {
             </div>
 
             <h3 className="text-3xl font-arch font-bold text-ink mb-6 mt-4">
-              High-Scale Community Management
+              Community Management
             </h3>
             
             <ul className="space-y-6 font-sans text-ink-light text-lg">

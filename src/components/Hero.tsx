@@ -3,7 +3,7 @@ import { RoughBox } from './RoughBox';
 
 export function Hero() {
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center relative px-6">
+    <section className="min-h-screen flex flex-col items-center justify-center relative px-6 pt-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -20,21 +20,25 @@ export function Hero() {
             className="px-6 py-2"
           >
             <span className="font-hand text-xl text-blue-600 tracking-wider">
-              Available for Collaboration
+              Available for Work
             </span>
           </RoughBox>
         </div>
 
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-arch font-bold leading-tight mb-6 text-ink">
+        <motion.h1 
+          className="text-5xl md:text-7xl lg:text-8xl font-arch font-bold leading-tight mb-6 text-ink cursor-pointer select-none"
+          whileTap={{ scale: 0.95, skewX: -5 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        >
           Ashar Aamer
           <br />
           <span className="text-ink-light text-4xl md:text-6xl lg:text-7xl">
-            Architecting AI & Communities.
+            Architecting AI.
           </span>
-        </h1>
+        </motion.h1>
 
         <p className="font-sans text-lg md:text-xl text-ink-light max-w-2xl mx-auto mb-12">
-          I build high-scale infrastructure, train custom LLMs, and craft digital experiences with hand-drawn precision.
+          I build scalable systems, train AI models, and craft digital experiences.
         </p>
 
         <div className="relative mt-8 mb-16">
@@ -47,7 +51,7 @@ export function Hero() {
             className="p-6 max-w-xl mx-auto text-left"
           >
             <p className="font-hand text-xl text-ink leading-relaxed">
-              "I don't just write code. I architect systems. Every line is a deliberate stroke, bridging the gap between raw AI capability and human-centric design. Welcome to my living sketchbook."
+              "I don't just write code. I build systems. Every line bridges the gap between AI and human design. Welcome to my sketchbook."
             </p>
             <div className="absolute -bottom-10 -right-12 transform rotate-12 opacity-70">
               <span className="font-hand text-sm text-ink-light">Hold Left Click to Draw! ✏️</span>

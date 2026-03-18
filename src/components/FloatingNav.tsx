@@ -20,17 +20,18 @@ export function FloatingNav() {
         type="rectangle"
         fill="#F4F4F4"
         stroke="#1A1A1A"
-        strokeWidth={1.5}
-        roughness={2}
+        strokeWidth={2}
+        roughness={2.5}
+        bowing={2}
         fillStyle="solid"
-        className="px-6 py-3 shadow-sm backdrop-blur-sm bg-paper/80"
+        className="p-2"
       >
-        <nav className="flex items-center gap-6">
+        <nav className="flex items-center gap-1 md:gap-2">
           {navItems.map((item) => (
             <a
               key={item.name}
               href={item.href}
-              className="font-arch text-ink hover:text-accent transition-colors magnetic text-sm md:text-base"
+              className="font-arch text-ink hover:text-accent hover:bg-ink/5 px-4 py-2 rounded-lg transition-all magnetic text-sm md:text-base font-medium"
             >
               {item.name}
             </a>

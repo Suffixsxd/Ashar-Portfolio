@@ -6,12 +6,14 @@ export function Cursor() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [isErasing, setIsErasing] = useState(false);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
   const audioCtxRef = useRef<AudioContext | null>(null);
   const gainNodeRef = useRef<GainNode | null>(null);
+  const filterNodeRef = useRef<BiquadFilterNode | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -20,7 +22,6 @@ export function Cursor() {
     if (!ctx) return;
 
     const updateCanvasSize = () => {
-      // Save current drawing
       const tempCanvas = document.createElement('canvas');
       tempCanvas.width = canvas.width;
       tempCanvas.height = canvas.height;
@@ -30,7 +31,6 @@ export function Cursor() {
       canvas.width = document.documentElement.scrollWidth;
       canvas.height = document.documentElement.scrollHeight;
 
-      // Restore drawing
       ctx.drawImage(tempCanvas, 0, 0);
     };
     
@@ -39,8 +39,32 @@ export function Cursor() {
     resizeObserver.observe(document.body);
 
     let drawing = false;
+    let erasing = false;
     let lastX = 0;
     let lastY = 0;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Shift') {
+        erasing = true;
+        setIsErasing(true);
+        if (filterNodeRef.current) {
+          filterNodeRef.current.frequency.value = 400; // Lower pitch for eraser
+        }
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.key === 'Shift') {
+        erasing = false;
+        setIsErasing(false);
+        if (filterNodeRef.current) {
+          filterNodeRef.current.frequency.value = 1500; // Normal pitch for pencil
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
 
     const initAudio = () => {
       if (audioCtxRef.current) return;
@@ -61,8 +85,9 @@ export function Cursor() {
 
       const filter = audioCtx.createBiquadFilter();
       filter.type = 'bandpass';
-      filter.frequency.value = 1500;
+      filter.frequency.value = erasing ? 400 : 1500;
       filter.Q.value = 0.8;
+      filterNodeRef.current = filter;
 
       const gain = audioCtx.createGain();
       gain.gain.value = 0;
@@ -119,20 +144,28 @@ export function Cursor() {
         gainNodeRef.current.gain.setTargetAtTime(targetGain, audioCtxRef.current.currentTime, 0.05);
       }
 
-      // Get current ink color from CSS variable
       const inkColor = getComputedStyle(document.body).getPropertyValue('--color-ink').trim() || '#1A1A1A';
 
       ctx.beginPath();
       ctx.moveTo(lastX, lastY);
       ctx.lineTo(currentX, currentY);
-      ctx.strokeStyle = inkColor;
-      ctx.globalAlpha = 0.7;
-      ctx.lineWidth = 2;
+      
+      if (erasing) {
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.lineWidth = 30;
+        ctx.globalAlpha = 1;
+      } else {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = inkColor;
+        ctx.globalAlpha = 0.7;
+        ctx.lineWidth = 2;
+      }
+      
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.stroke();
 
-      if (Math.random() > 0.4) {
+      if (!erasing && Math.random() > 0.4) {
         ctx.beginPath();
         ctx.moveTo(lastX + (Math.random() - 0.5) * 3, lastY + (Math.random() - 0.5) * 3);
         ctx.lineTo(currentX + (Math.random() - 0.5) * 3, currentY + (Math.random() - 0.5) * 3);
@@ -154,6 +187,8 @@ export function Cursor() {
       window.removeEventListener('mousedown', startDrawing);
       window.removeEventListener('mouseup', stopDrawing);
       window.removeEventListener('mousemove', draw);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
       resizeObserver.disconnect();
     };
   }, [mouseX, mouseY]);
@@ -167,21 +202,24 @@ export function Cursor() {
       />
       <motion.div
         ref={cursorRef}
-        className="fixed top-0 left-0 w-4 h-4 rounded-full pointer-events-none z-50 flex items-center justify-center mix-blend-difference"
+        className="fixed top-0 left-0 pointer-events-none z-50 flex items-center justify-center mix-blend-difference"
         style={{
           x: mouseX,
           y: mouseY,
           translateX: '-50%',
           translateY: '-50%',
+          width: isErasing ? '30px' : '16px',
+          height: isErasing ? '30px' : '16px',
+          borderRadius: isErasing ? '4px' : '50%',
         }}
         animate={{
-          scale: isDrawing ? 0.5 : isHovering ? 2 : 1,
-          backgroundColor: isHovering ? 'transparent' : '#1A1A1A',
-          border: isHovering ? '1px solid #1A1A1A' : 'none',
+          scale: isDrawing && !isErasing ? 0.5 : isHovering && !isErasing ? 2 : 1,
+          backgroundColor: isHovering && !isErasing ? 'transparent' : isErasing ? '#FFFFFF' : '#1A1A1A',
+          border: isHovering && !isErasing ? '1px solid #1A1A1A' : 'none',
         }}
         transition={{ duration: 0.1 }}
       >
-        <div className="w-1 h-1 bg-white rounded-full" />
+        {!isErasing && <div className="w-1 h-1 bg-white rounded-full" />}
       </motion.div>
     </>
   );

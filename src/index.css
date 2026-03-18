@@ -81,6 +81,45 @@ html.blueprint-mode .bg-paper\/80 {
   background-color: rgba(10, 25, 47, 0.8) !important;
 }
 
+/* Matrix mode */
+html.matrix-mode body {
+  --color-paper: #000000;
+  --color-ink: #00FF41;
+  --color-ink-light: #008F11;
+  --color-accent: #00FF41;
+  font-family: var(--font-mono), monospace;
+  background-image: none;
+}
+
+html.matrix-mode .bg-white\/50,
+html.matrix-mode .bg-white\/80,
+html.matrix-mode .bg-white,
+html.matrix-mode .bg-paper\/80 {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  color: var(--color-ink);
+}
+
+html.matrix-mode * {
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+}
+
+/* Dark mode (light switch) */
+html.dark-mode body {
+  --color-paper: #121212;
+  --color-ink: #E0E0E0;
+  --color-ink-light: #A0A0A0;
+  --color-accent: #60A5FA;
+  background-image: none;
+}
+
+html.dark-mode .bg-white\/50,
+html.dark-mode .bg-white\/80,
+html.dark-mode .bg-white,
+html.dark-mode .bg-paper\/80 {
+  background-color: rgba(30, 30, 30, 0.8) !important;
+  color: var(--color-ink);
+}
+
 /* Coffee stain animation */
 @keyframes stain-appear {
   0% { opacity: 0; transform: scale(0.8) rotate(var(--rotation)); }
@@ -89,4 +128,13 @@ html.blueprint-mode .bg-paper\/80 {
 
 .coffee-stain {
   animation: stain-appear 0.5s ease-out forwards;
+}
+
+@keyframes barrel-roll {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.barrel-roll-active {
+  animation: barrel-roll 2s ease-in-out;
 }
